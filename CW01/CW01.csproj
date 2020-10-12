@@ -44,7 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Hero.cs" />
+    <Compile Include="HeroDialogPart.cs" />
     <Compile Include="HeroesGame.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="NonPlayerCharacter.cs" />
+    <Compile Include="NpcDialogPart.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
