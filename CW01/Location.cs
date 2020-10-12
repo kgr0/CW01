@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace CW01
 {
-    class Location
+    public class Location
     {
+        public string name;
+        public List<NonPlayerCharacter> npc_list;
+
+
     }
 }

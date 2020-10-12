@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CW01
 {
-    class NonPlayerCharacter
+    public class NonPlayerCharacter
     {
     }
 }
