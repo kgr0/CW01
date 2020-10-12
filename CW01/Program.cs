@@ -10,7 +10,8 @@ namespace CW01
     {
         static void Main(string[] args)
         {
-            HeroesGame.start_menu();
+
+           HeroesGame.start_menu();
            
             
         }

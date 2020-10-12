@@ -49,6 +49,43 @@ namespace CW01
             return name_;
         }
 
+       public static void Init(Location location)
+        {
+            NpcDialogPart n1 = new NpcDialogPart("Witaj, czy możesz mi pomóc dostać się do innego miasta?");
+
+            HeroDialogPart h1_1 = new HeroDialogPart("Tak, chętnie pomogę");
+            HeroDialogPart h1_2 = new HeroDialogPart("Nie, nie pomogę, żegnaj.");
+            n1.answers.Add(h1_1);
+            n1.answers.Add(h1_2);
+
+            NpcDialogPart n2 = new NpcDialogPart("Dziękuję! W nagrodę otrzymasz ode mnie 100 sztuk złota");
+            h1_1.answers.Add(n2);
+
+            HeroDialogPart h2_1 = new HeroDialogPart("Dam znać jak będę gotowy");
+            HeroDialogPart h2_2 = new HeroDialogPart("100 sztuk złota to za mało!");
+            n2.answers.Add(h2_1);
+            n2.answers.Add(h2_2);
+
+            NpcDialogPart n3 = new NpcDialogPart("Niestety nie mam więcej. Jestem bardzo biedny");
+            h2_2.answers.Add(n3);
+
+            HeroDialogPart h3_1 = new HeroDialogPart("OK, może być 100 sztuk złota.");
+            HeroDialogPart h3_2 = new HeroDialogPart("W takim razie radź sobie sam.");
+            n3.answers.Add(h3_1);
+            n3.answers.Add(h3_2);
+
+            NpcDialogPart n4 = new NpcDialogPart("Dziękuję.");
+            h3_1.answers.Add(n4);
+
+
+
+            location.Add_npc(new NonPlayerCharacter("Cain", n1));
+            location.Add_npc(new NonPlayerCharacter("Warriv", n1));
+
+            Console.WriteLine(location.npc_list[0].name);
+            Console.ReadLine();
+        }
+
         public static EHeroClass choose_class(string name)
         {
             Console.Clear();
@@ -80,13 +117,54 @@ namespace CW01
         public static void TalkTo(NonPlayerCharacter npc)
         {
             Console.Clear();
-            npc
+            NpcDialogPart npc_part;
+            HeroDialogPart hero_part;
+            npc_part = npc.StartTalking();
+
+            string choice;
+            int part_index;
+
+            while(true)
+            {
+                Console.WriteLine("{0}: {1}", npc.name, npc_part.part);
+
+                if(npc_part.answers.Count == 0)
+                {
+                    Console.WriteLine("THE END");
+                    return;
+                }
+                for(int i=0; i < npc_part.answers.Count; i++)
+                {
+                    Console.WriteLine("[{0}] {1}", i+1, npc_part.answers[i]);
+                }
+
+                while (true) 
+                {
+                    choice = Console.ReadLine();
+
+                    if (!Int32.TryParse(choice, out part_index) || part_index >= npc_part.answers.Count)
+                    {
+                        Console.WriteLine("Niepoprawna opcja. Sprobuj jeszcze raz.");
+                    }
+                    else
+                    {
+                        hero_part = npc_part.answers[part_index - 1];
+
+                        if (hero_part.answers.Count == 0)
+                        {
+                            Console.WriteLine("THE END");
+                            return;
+                        }
+                        npc_part = hero_part.answers[0];
+                        break;
+                    }
+                }
+            }
 
         }
         public static void ShowLocation(Location location)
         {
-           
-
+            Console.Clear();
             Console.WriteLine("Znajdujesz się w : {0}. Co chcesz zrobić?", location.name);
 
             for(int i=0; i < location.npc_list.Count; i++)
@@ -105,11 +183,12 @@ namespace CW01
                     return;
                 else if (!Int32.TryParse(choice, out npc_index) || npc_index >= location.npc_list.Count)
                 {
-                    Console.WriteLine("Niepoprawne imię. Sprobuj jeszcze raz.");
+                    Console.WriteLine("Niepoprawna opcja. Sprobuj jeszcze raz.");
                 }
                 else
                 {
                     TalkTo(location.npc_list[npc_index - 1]);
+                    ShowLocation(location);
                     break;
                 }
             }
@@ -165,7 +244,9 @@ namespace CW01
 
             Console.WriteLine("{0} {1} wyrusza na przygodę", hero_class, hero.name);
 
-            ShowLocation(new Location("Calimport"));
+            Location location = new Location("Calimport");
+            Init(location);
+            ShowLocation(location);
         }
     }
 }

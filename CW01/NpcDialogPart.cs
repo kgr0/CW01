@@ -11,10 +11,10 @@ namespace CW01
         public string part;
         public List<HeroDialogPart> answers;
 
-        public NpcDialogPart(string part, List<HeroDialogPart> answers)
+        public NpcDialogPart(string part)
         {
             this.part = part;
-            this.answers = answers;
+            this.answers = new List<HeroDialogPart>();
         }
     }
 }

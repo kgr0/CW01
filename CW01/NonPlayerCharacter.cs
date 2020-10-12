@@ -16,5 +16,10 @@ namespace CW01
             this.name = name;
             this.first_part = first_part;
         }
+
+        public NpcDialogPart StartTalking()
+        {
+            return first_part;
+        }
     }
 }

@@ -11,11 +11,15 @@ namespace CW01
         public string name;
         public List<NonPlayerCharacter> npc_list;
 
-        public Location(string name, List<NonPlayerCharacter> npc_list)
+        public Location(string name)
         {
             this.name = name;
-            this.npc_list = npc_list;
+            npc_list = new List<NonPlayerCharacter>();
         } 
 
+        public void Add_npc(NonPlayerCharacter npc)
+        {
+            npc_list.Add(npc);
+        }
     }
 }
