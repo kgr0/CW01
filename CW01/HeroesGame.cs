@@ -76,44 +76,6 @@ namespace CW01
                 }
             }
         }
-
-        public static void TalkTo(NonPlayerCharacter npc)
-        {
-            Console.Clear();
-            npc.
-
-        }
-        public static void ShowLocation(Location location)
-        {
-           
-
-            Console.WriteLine("Znajdujesz się w : {0}. Co chcesz zrobić?", location.name);
-
-            for(int i=0; i < location.npc_list.Count; i++)
-            {
-                Console.WriteLine("[{0}] Porozmawiaj z {1}", i+1, location.npc_list[i]);
-            }
-            Console.WriteLine("[X] Zamknij program");
-
-            string choice;
-            int npc_index;
-
-            while (true)
-            {
-                choice = Console.ReadLine();
-                if (choice == "X")
-                    return;
-                else if (!Int32.TryParse(choice, out npc_index) || npc_index >= location.npc_list.Count)
-                {
-                    Console.WriteLine("Niepoprawne imię. Sprobuj jeszcze raz.");
-                }
-                else
-                {
-                    TalkTo(location.npc_list[npc_index - 1]);
-                    break;
-                }
-            }
-        }
         public static void start_menu()
         {
             Console.Clear();
@@ -128,6 +90,8 @@ namespace CW01
             Console.Clear();
             while (check)
             {
+
+
                 switch (choice)
                 {
                     case "1":
@@ -164,8 +128,6 @@ namespace CW01
                 hero_class = "Amazonka";
 
             Console.WriteLine("{0} {1} wyrusza na przygodę", hero_class, hero.name);
-
-            ShowLocation(new Location("Calimport"));
         }
     }
 }
