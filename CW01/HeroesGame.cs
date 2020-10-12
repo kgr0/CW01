@@ -78,9 +78,35 @@ namespace CW01
             h3_1.answers.Add(n4);
 
 
+            NpcDialogPart n5 = new NpcDialogPart("Witaj, mam do sprzedarzy różne rzeczy. Czego szukasz?");
+
+            HeroDialogPart h5_1 = new HeroDialogPart("Potrzebuję zbroję.");
+            HeroDialogPart h5_2 = new HeroDialogPart("Nic nie potrzebuję.");
+            n5.answers.Add(h5_1);
+            n5.answers.Add(h5_2);
+
+            NpcDialogPart n6 = new NpcDialogPart("Mam skórzaną.");
+            h5_1.answers.Add(n6);
+
+            HeroDialogPart h6_1 = new HeroDialogPart("Nie, chcę lamelkową.");
+            HeroDialogPart h6_2 = new HeroDialogPart("Ile kosztuje?");
+            n6.answers.Add(h6_1);
+            n6.answers.Add(h6_2);
+
+            NpcDialogPart n7 = new NpcDialogPart("300 sztuk złota. A razem z kapturem za 350.");
+            h6_2.answers.Add(n7);
+
+            HeroDialogPart h7_1 = new HeroDialogPart("Dobrze, kupuję wszystko.");
+            HeroDialogPart h7_2 = new HeroDialogPart("Biorę bez kaptura.");
+            n7.answers.Add(h7_1);
+            n7.answers.Add(h7_2);
+
+            NpcDialogPart n8 = new NpcDialogPart("Fajny wybór.");
+            h7_2.answers.Add(n8);
+
 
             location.Add_npc(new NonPlayerCharacter("Cain", n1));
-            location.Add_npc(new NonPlayerCharacter("Warriv", n1));
+            location.Add_npc(new NonPlayerCharacter("Warriv", n5));
 
             Console.ReadLine();
         }
@@ -129,7 +155,9 @@ namespace CW01
 
                 if(npc_part.answers.Count == 0)
                 {
-                    Console.WriteLine("THE END");
+                    Console.WriteLine("KONIEC");
+                    Console.WriteLine("Wciśnij Enter...");
+                    Console.ReadLine();
                     return;
                 }
                 for(int i=0; i < npc_part.answers.Count; i++)
@@ -151,7 +179,9 @@ namespace CW01
 
                         if (hero_part.answers.Count == 0)
                         {
-                            Console.WriteLine("THE END");
+                            Console.WriteLine("KONIEC");
+                            Console.WriteLine("Wciśnij Enter...");
+                            Console.ReadLine();
                             return;
                         }
                         npc_part = hero_part.answers[0];
@@ -242,6 +272,7 @@ namespace CW01
                 hero_class = "Amazonka";
 
             Console.WriteLine("{0} {1} wyrusza na przygodę", hero_class, hero.name);
+            Console.WriteLine("Wciśnij Enter...");
 
             Location location = new Location("Calimport");
             Init(location);
