@@ -80,7 +80,7 @@ namespace CW01
         public static void TalkTo(NonPlayerCharacter npc)
         {
             Console.Clear();
-            npc.
+            npc
 
         }
         public static void ShowLocation(Location location)

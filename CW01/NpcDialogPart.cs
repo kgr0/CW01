@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace CW01
 {
-    class NpcDialogPart
+    public class NpcDialogPart
     {
+        public string part;
+        public List<HeroDialogPart> answers;
+
+        public NpcDialogPart(string part, List<HeroDialogPart> answers)
+        {
+            this.part = part;
+            this.answers = answers;
+        }
     }
 }
