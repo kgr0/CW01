@@ -48,9 +48,12 @@ namespace CW01
 
             return name_;
         }
-
+        public static string HERONAME = "LOX";
+        public static DialogParser parser;
        public static void Init(Location location)
         {
+            parser = new DialogParser(hero);
+
             NpcDialogPart n1 = new NpcDialogPart("Witaj, czy możesz mi pomóc dostać się do innego miasta?");
 
             HeroDialogPart h1_1 = new HeroDialogPart("Tak, chętnie pomogę");
@@ -104,9 +107,17 @@ namespace CW01
             NpcDialogPart n8 = new NpcDialogPart("Fajny wybór.");
             h7_2.answers.Add(n8);
 
+            NpcDialogPart n9 = new NpcDialogPart($"Hej czy to Ty jesteś tym słynnym {HERONAME} – pogromcą smoków?”");
+
+            HeroDialogPart h9_1 = new HeroDialogPart($"Tak, jestem {HERONAME}");
+            HeroDialogPart h9_2 = new HeroDialogPart("Nie");
+            n9.answers.Add(h9_1);
+            n9.answers.Add(h9_2);
+
 
             location.Add_npc(new NonPlayerCharacter("Cain", n1));
             location.Add_npc(new NonPlayerCharacter("Warriv", n5));
+            location.Add_npc(new NonPlayerCharacter("Deckard", n9));
 
             Console.ReadLine();
         }
@@ -139,7 +150,7 @@ namespace CW01
             }
         }
 
-        public static void TalkTo(NonPlayerCharacter npc)
+        public static void TalkTo(NonPlayerCharacter npc, DialogParser parser)
         {
             Console.Clear();
             NpcDialogPart npc_part;
@@ -151,7 +162,7 @@ namespace CW01
 
             while(true)
             {
-                Console.WriteLine("{0}: {1}", npc.name, npc_part.part);
+                Console.WriteLine("{0}: {1}", npc.name, parser.ParseDialog(npc_part));
 
                 if(npc_part.answers.Count == 0)
                 {
@@ -162,7 +173,7 @@ namespace CW01
                 }
                 for(int i=0; i < npc_part.answers.Count; i++)
                 {
-                    Console.WriteLine("[{0}] {1}", i+1, npc_part.answers[i].part);
+                    Console.WriteLine("[{0}] {1}", i+1, parser.ParseDialog(npc_part.answers[i]));
                 }
 
                 while (true) 
@@ -216,7 +227,7 @@ namespace CW01
                 }
                 else
                 {
-                    TalkTo(location.npc_list[npc_index - 1]);
+                    TalkTo(location.npc_list[npc_index - 1], parser);
                     ShowLocation(location);
                     break;
                 }

@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace CW01
 {
-    public class HeroDialogPart
+    public class HeroDialogPart :IDialogPart
     {
         public string part;
         public List<NpcDialogPart> answers;
+
+        public string Part
+        {
+            get { return part; }
+        }
 
         public HeroDialogPart(string part)
         {
