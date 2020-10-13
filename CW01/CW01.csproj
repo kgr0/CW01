@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EHeroClass.cs" />
     <Compile Include="DialogParser.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="HeroDialogPart.cs" />

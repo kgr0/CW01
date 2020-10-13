@@ -7,15 +7,12 @@ using System.Threading.Tasks;
 
 namespace CW01
 {
-    public enum EHeroClass
-    {
-        barbarian,
-        paladin,
-        amazon
-    }
     public static class HeroesGame
     {
         public static Hero hero;
+        public static string HERONAME = "";
+        public static DialogParser parser;
+
         public static string check_name(string name)
         {
             Regex regex = new Regex(@"^(?![\s.]+$)[a-zA-Z\s.]*$");
@@ -33,7 +30,7 @@ namespace CW01
                     space_counter = 0;
                     letter_counter++;
                 }
-                else if (name[i] == ' ' && space_counter==0 && name_!="")
+                else if (name[i] == ' ' && space_counter == 0 && name_ != "")
                 {
                     name_ += name[i];
                     space_counter++;
@@ -48,28 +45,54 @@ namespace CW01
 
             return name_;
         }
-        public static string HERONAME = "LOX";
-        public static DialogParser parser;
-       public static void Init(Location location)
+        public static EHeroClass choose_class(string name)
+        {
+            Console.Clear();
+            Console.WriteLine($"Witaj {name}, wybierz klasę bohatera: ");
+
+            Console.WriteLine("[1] barbarzyńca");
+            Console.WriteLine("[2] paladyn");
+            Console.WriteLine("[3] amazonka");
+
+            while (true)
+            {
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        return EHeroClass.barbarian;
+                    case "2":
+                        return EHeroClass.paladin;
+                    case "3":
+                        return EHeroClass.amazon;
+                    default:
+                        Console.WriteLine("Niepoprawna opcja. Sprobuj jeszcze raz.");
+                        break;
+                }
+            }
+        }
+
+        public static void Init(Location location) //dialogs and npcs initialization
         {
             parser = new DialogParser(hero);
 
             NpcDialogPart n1 = new NpcDialogPart("Witaj, czy możesz mi pomóc dostać się do innego miasta?");
 
-            HeroDialogPart h1_1 = new HeroDialogPart("Tak, chętnie pomogę");
+            HeroDialogPart h1_1 = new HeroDialogPart("Tak, chętnie pomogę.");
             HeroDialogPart h1_2 = new HeroDialogPart("Nie, nie pomogę, żegnaj.");
             n1.answers.Add(h1_1);
             n1.answers.Add(h1_2);
 
-            NpcDialogPart n2 = new NpcDialogPart("Dziękuję! W nagrodę otrzymasz ode mnie 100 sztuk złota");
+            NpcDialogPart n2 = new NpcDialogPart("Dziękuję! W nagrodę otrzymasz ode mnie 100 sztuk złota.");
             h1_1.answers.Add(n2);
 
-            HeroDialogPart h2_1 = new HeroDialogPart("Dam znać jak będę gotowy");
+            HeroDialogPart h2_1 = new HeroDialogPart("Dam znać jak będę gotowy.");
             HeroDialogPart h2_2 = new HeroDialogPart("100 sztuk złota to za mało!");
             n2.answers.Add(h2_1);
             n2.answers.Add(h2_2);
 
-            NpcDialogPart n3 = new NpcDialogPart("Niestety nie mam więcej. Jestem bardzo biedny");
+            NpcDialogPart n3 = new NpcDialogPart("Niestety nie mam więcej. Jestem bardzo biedny.");
             h2_2.answers.Add(n3);
 
             HeroDialogPart h3_1 = new HeroDialogPart("OK, może być 100 sztuk złota.");
@@ -109,8 +132,8 @@ namespace CW01
 
             NpcDialogPart n9 = new NpcDialogPart($"Hej czy to Ty jesteś tym słynnym {HERONAME} – pogromcą smoków?”");
 
-            HeroDialogPart h9_1 = new HeroDialogPart($"Tak, jestem {HERONAME}");
-            HeroDialogPart h9_2 = new HeroDialogPart("Nie");
+            HeroDialogPart h9_1 = new HeroDialogPart($"Tak, jestem {HERONAME}.");
+            HeroDialogPart h9_2 = new HeroDialogPart("Nie.");
             n9.answers.Add(h9_1);
             n9.answers.Add(h9_2);
 
@@ -120,34 +143,6 @@ namespace CW01
             location.Add_npc(new NonPlayerCharacter("Deckard", n9));
 
             Console.ReadLine();
-        }
-
-        public static EHeroClass choose_class(string name)
-        {
-            Console.Clear();
-            Console.WriteLine($"Witaj {name}, wybierz klasę bohatera: ");
-
-            Console.WriteLine("[1] barbarzyńca");
-            Console.WriteLine("[2] paladyn");
-            Console.WriteLine("[3] amazonka");
-
-            while (true)
-            {
-                string choice = Console.ReadLine();
-
-                switch (choice)
-                {
-                    case "1":
-                        return EHeroClass.barbarian;
-                    case "2":
-                        return EHeroClass.paladin;
-                    case "3":
-                        return EHeroClass.amazon;
-                    default:
-                        Console.WriteLine("Niepoprawna opcja. Sprobuj jeszcze raz.");
-                        break;
-                }
-            }
         }
 
         public static void TalkTo(NonPlayerCharacter npc, DialogParser parser)
@@ -160,23 +155,24 @@ namespace CW01
             string choice;
             int part_index;
 
-            while(true)
+            while (true)
             {
                 Console.WriteLine("{0}: {1}", npc.name, parser.ParseDialog(npc_part));
 
-                if(npc_part.answers.Count == 0)
+                if (npc_part.answers.Count == 0)
                 {
                     Console.WriteLine("KONIEC");
+                    Console.WriteLine();
                     Console.WriteLine("Wciśnij Enter...");
                     Console.ReadLine();
                     return;
                 }
-                for(int i=0; i < npc_part.answers.Count; i++)
+                for (int i = 0; i < npc_part.answers.Count; i++)
                 {
-                    Console.WriteLine("[{0}] {1}", i+1, parser.ParseDialog(npc_part.answers[i]));
+                    Console.WriteLine("[{0}] {1}", i + 1, parser.ParseDialog(npc_part.answers[i]));
                 }
 
-                while (true) 
+                while (true)
                 {
                     choice = Console.ReadLine();
 
@@ -191,6 +187,7 @@ namespace CW01
                         if (hero_part.answers.Count == 0)
                         {
                             Console.WriteLine("KONIEC");
+                            Console.WriteLine();
                             Console.WriteLine("Wciśnij Enter...");
                             Console.ReadLine();
                             return;
@@ -207,9 +204,9 @@ namespace CW01
             Console.Clear();
             Console.WriteLine("Znajdujesz się w: {0}. Co chcesz zrobić?", location.name);
 
-            for(int i=0; i < location.npc_list.Count; i++)
+            for (int i = 0; i < location.npc_list.Count; i++)
             {
-                Console.WriteLine("[{0}] Porozmawiaj z {1}", i+1, location.npc_list[i].name);
+                Console.WriteLine("[{0}] Porozmawiaj z {1}", i + 1, location.npc_list[i].name);
             }
             Console.WriteLine("[X] Zamknij program");
 
@@ -236,7 +233,7 @@ namespace CW01
         public static void start_menu()
         {
             Console.Clear();
-            Console.WriteLine("Witaj w grze < Heroes Game >");
+            Console.WriteLine("Witaj w grze < Hero Wars >");
             Console.WriteLine("[1] Zacznij nową grę");
             Console.WriteLine("[X] Zamknij program");
 
@@ -283,6 +280,7 @@ namespace CW01
                 hero_class = "Amazonka";
 
             Console.WriteLine("{0} {1} wyrusza na przygodę", hero_class, hero.name);
+            Console.WriteLine();
             Console.WriteLine("Wciśnij Enter...");
 
             Location location = new Location("Calimport");

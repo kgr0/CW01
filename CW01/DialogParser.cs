@@ -8,12 +8,8 @@ namespace CW01
 {
     public class DialogParser
     {
-
-        public Hero hero;
-
         public DialogParser(Hero hero)
         {
-            this.hero = hero;
             HeroesGame.HERONAME = hero.name;
         }
 

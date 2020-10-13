@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CW01
 {
-    class Program
+    public enum EHeroClass
     {
-        static void Main(string[] args)
-        {
-           HeroesGame.start_menu();
-        }
+        barbarian,
+        paladin,
+        amazon
     }
 }
